@@ -2,6 +2,18 @@
 #FONTS
 \*------------------------------------*/
 
+@font-face {
+    font-family: "Source Sans Pro";
+    font-weight: 400;
+    src: url("../fonts/SourceSansPro-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Source Sans Pro";
+    font-weight: 700;
+    src: url("../fonts/SourceSansPro-Bold.ttf");
+}
+
 /*------------------------------------*\
 #Variables
 \*------------------------------------*/
@@ -11,40 +23,53 @@
     --color-alpha-light: MEDIUMSLATEBLUE;
     --color-alpha: SLATEBLUE;
 
-    --color-neutral-xxxx-light: #ffffff;
-    --color-neutral-xxx-light: #f0f0f7;
-    --color-neutral-xx-light: #ebebf2;
-    --color-neutral-x-light: #d7dae2;
-    --color-neutral-light: #bcbccb;
-    --color-neutral: #a5a4bf;
-    --color-neutral-dark: #808495;
-    --color-neutral-x-dark: #4d4f5c;
-    --color-neutral-xx-dark: #43425d;
-    --color-neutral-xxx-dark: #3b3b53;
-    --color-neutral-xxxx-dark: #000000;
+    --color-neutral-light: LIGHTSLATEGRAY;
+    --color-neutral: SLATEGRAY;
+    --color-neutral-dark: DARKSLATEGRAY;
 
-    --color-red: #ff6565;
-    --color-green: #3cc480;
-    --color-blue: #3b86ff;
-    --color-purple: #a3a0fb;
-    --color-cyan: #54d8ff;
+    --global-color-neutral-xxx-light: #F0F0F7;
+    --global-color-neutral-xx-light: #EBEBF2;
+    --global-color-neutral-x-light: #D7DAE2;
+    --global-color-neutral-light: #BCBCCB;
+    --global-color-neutral: #A5A4BF;
+    --global-color-neutral-dark: #808495;
+    --global-color-neutral-x-dark: #4D4F5C;
+    --global-color-neutral-xx-dark: #43425D;
+    --global-color-neutral-xxx-dark: #3B3B53;
+
+    --color-white: #FFFFFF;
+    --color-alpha: #3CC480;
+    --color-beta: #FF6565;
+    --color-gamma: #3B86FF;
+    --color-delta: #A3A0FB;
+    --color-epsilon: #54D8FF;
 
     /* Shadows */
-    --global-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    --global-box-shadow: 0 0 0 px rgba(0,0,0,.025), 0 2px 6px rgba(0,0,0,.05);
+    --global-box-shadow-lg: 0 0 0 px rgba(0,0,0,.025), 0 2px 10px rgba(0,0,0,.1);
+
+    --global-input-shadow: 0 2px 3px rgba(0,0,0,.05);
+    --global-input-focus-shadow: 0 0 5px var(--global-color-alpha-light);
+
+    /* border radius */
+    --global-borderRadius: 4px;
+
+    /* transitions */
+    --transition-alpha: .1s;
+    --transition-beta: 1s;
 
     /* Whitespace */
     --global-baseline: 5px;
-    --global-whitespace-xxs: var(--global-baseline); /* 5px */
-    --global-whitespace-xs: calc(var(--global-baseline) * 2); /* 10px */
-    --global-whitespace-sm: calc(var(--global-baseline) * 3); /* 15px */
-    --global-whitespace-md: calc(var(--global-baseline) * 4); /* 20px */
-    --global-whitespace-lg: calc(var(--global-baseline) * 5); /* 25px */
-    --global-whitespace-xl: calc(var(--global-baseline) * 6); /* 30px */
+    --global-whitespace-xxs: var(--global-baseline); /* 5 */
+    --global-whitespace-xs: calc(var(--global-baseline) * 2); /* 10 */
+    --global-whitespace-sm: calc(var(--global-baseline) * 3); /* 15 */
+    --global-whitespace-md: calc(var(--global-baseline) * 4); /* 20 */
+    --global-whitespace-lg: calc(var(--global-baseline) * 5); /* 25 */
+    --global-whitespace-xl: calc(var(--global-baseline) * 6); /* 30 */
 
-    /* border radius */
+    --pi: 3.14159265359;
 
-    /* transitions */
-    --transition-alpha: 0.1s;
+    --c-app__topbar-height: 70px;
 }
 
 /*------------------------------------*\
@@ -61,11 +86,11 @@ html {
     font-size: 15px;
     line-height: 1.5;
     font-family: "Source Sans Pro", Helvetica, arial, sans-serif;
-    color: var(--color-neutral-xxx-dark);
+    color: var(--color-neutral-x-dark);
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: var(--color-neutral-xxx-light);
+    background-color: var(--global-color-neutral-xxx-light);
 }
 
 *,
@@ -83,13 +108,13 @@ html {
 
 ::-moz-selection {
     background: var(--color-alpha);
-    color: var(--color-neutral-xxx-light);
+    color: white;
     text-shadow: none;
 }
 
 ::selection {
     background: var(--color-alpha);
-    color: var(--color-neutral-xxx-light);
+    color: white;
     text-shadow: none;
 }
 
@@ -127,7 +152,8 @@ h1 {
 }
 
 h2 {
-    font-size: 32px;
+    font-size: 28px;
+    font-weight: normal;
     line-height: calc(var(--global-baseline) * 8);
     margin: 0 0 var(--global-whitespace-lg);
 }
@@ -159,7 +185,7 @@ figure {
 
 ul,
 ol {
-    padding-left: var(--global-whitespace-md);
+    padding-left: 24px;
 }
 
 li ul,
@@ -316,230 +342,171 @@ input::placeholder {
 /*
     Component: App
     ---
-    Website container
+    Website main app
 */
 
-.c-app {
-    min-height: 100vh;
-    --c-app__topbar-height: calc(var(--global-baseline) * 14);
+@media(min-width: 992px) {
+    .c-app {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        grid-template-rows: var(--c-app__topbar-height) 1fr;
+    }
 }
-
-/*
-    Component: Logo container
-    ---
-    Website logo container
-*/
 
 .c-app__logo {
-    background-color: var(--color-neutral-xxx-dark);
-    padding: var(--global-whitespace-md) var(--global-whitespace-lg);
-
+    background-color: var(--global-color-neutral-xxx-dark);
+    padding: 0 var(--global-whitespace-md);
     display: flex;
     align-items: center;
 }
-
-.c-logo {
-    font-size: calc(var(--global-baseline) * 3);
-    line-height: calc(var(--global-baseline) * 4);
-    margin: 0;
-    color: var(--color-neutral-xxxx-light);
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/*
-    Component: Sidebar
-    ---
-    Website sidebar
-*/
-
-.c-app__sidebar {
-    display: none;
-    background-color: var(--color-neutral-xx-dark);
-}
-
-.c-main-nav {
-}
-
-.c-main-nav__list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.c-main-nav__list-item {
-    margin-bottom: var(--global-baseline);
-    position: relative;
-}
-
-.c-main-nav__list-item--is-selected {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.c-main-nav__link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--color-neutral-xxxx-light);
-
-    padding: var(--global-whitespace-md) var(--global-whitespace-lg);
-
-    border-left: var(--global-baseline) solid var(--color-alpha);
-    transform: translateX(calc(var(--global-baseline) * -1));
-    width: calc(100% + var(--global-baseline));
-    
-    /* trager als je hover verlaat */
-    transition: transform 0.5s ease;
-}
-
-.c-main-nav__link:hover {
-    transform: translateX(0);
-    background-color: var(--color-neutral-xxx-dark);
-    
-    /* rapper wanneer je erover hovert */
-    transition-duration: 0.1s;
-}
-
-.c-main-nav__link:visited {
-    color: var(--color-neutral-xxxx-light);
-}
-
-.c-main-nav__link--selected {
-    transform: translateX(0);
-    background-color: var(--color-neutral-xxx-dark);
-}
-
-.c-main-nav__icon {
-    fill: var(--color-neutral);
-    width: calc(var(--global-baseline) * 3);
-    height: calc(var(--global-baseline) * 3);
-    margin: 0 var(--global-whitespace-xs) 0 0;
-}
-
-/*
-    Component: Topbar
-    ---
-    Website topbar
-*/
 
 .c-app__topbar {
-    display: none;
-
-    background-color: var(--color-neutral-xxxx-light); /* white */
-    box-shadow: var(--global-shadow);
-    position: relative; /* Higher on the stacking order => Shadow falls on the main section */
+    content: "";
+    background-color: var(--color-white);
+    box-shadow: var(--global-box-shadow);
 }
 
-/*
-    Component: Main
-    ---
-    Website main content
-*/
-
-.c-app__main {
-    background-color: var(--color-neutral-xxx-light);
-    padding: var(--global-whitespace-xl) calc(var(--global-baseline) * 15) 0 calc(var(--global-baseline) * 15); /* 75px links rechts 30px boven */
-}
-
-/* 
-    Scroll behaviour 1:
-    Hier komt de main content effectief onder de topbar
-    Maar de scrollbar zelf gaat tot de hele hoogte van het scherm
-    Enkel cool als de topbar semi transparant is
-*/
-
-/*
-.c-app__topbar,
-.c-app__logo {
-    position: sticky;
-    top: 0;
-}
 .c-app__sidebar {
-    position: sticky;
-    top: var(--c-app__topbar-height);
-    height: calc(100vh - var(--c-app__topbar-height));
-    overflow: auto;
+    background-color: var(--global-color-neutral-xx-dark);
 }
-*/
 
-/*
-    Scroll behavior 2:
-    voelt beetje als een app
-*/
-
-.c-app__sidebar,
 .c-app__main {
+    padding: var(--global-whitespace-md) var(--global-whitespace-lg);
+}
+
+/* Scroll behaviour */
+
+.c-app__sidebar, .c-app__main {
     height: calc(100vh - var(--c-app__topbar-height));
     overflow-y: auto;
     overflow-x: hidden;
 }
 
-@media (min-width: 992px) {
-    .c-app {
-        display: grid;
-        /*
-            Elke spatie maakt een nieuwe kolom
-            1fr staat voor de beschikbare ruimte
-            1 FRACTION UNIT
-        */
-        grid-template-columns: 260px 1fr;
-        grid-template-rows: var(--c-app__topbar-height) 1fr;
-        gap: 0;
-    }
+/*
+    Component: Logo
+    ---
+    Website main logo
+*/
 
-    .c-app__topbar,
-    .c-app__sidebar {
-        display: block;
-    }
+.c-logo {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-white);
+    line-height: 20px;
+    margin: 0;
 }
 
-/* Component dashboard */
+/*
+    Component: Nav
+    ---
+    Website main navigation
+*/
+
+.c-nav__list {
+    padding: 0;
+}
+
+.c-nav__list-item {
+    padding: var(--global-whitespace-sm) var(--global-whitespace-lg);
+}
+
+.c-nav__link{
+    display: flex;
+    align-items: center;
+}
+
+.c-nav__icon {
+    width: 16px;
+    height: 16px;
+    margin-right: var(--global-whitespace-sm);
+    fill: var(--global-color-neutral);
+}
+
+.c-nav__link,
+.c-nav__link:visited,
+.c-nav__link:hover,
+.c-nav__link:focus,
+.c-nav__link:active {
+    font-size: 15px;
+    line-height: 19px;
+    color: var(--color-white);
+    text-decoration: none;
+}
+
+/* Hover */
+.c-nav__list-item{
+    position: relative;
+}
+
+.c-nav__list-item:hover,
+.is-selected {
+    background-color: rgba(0,0,0,.1);
+}
+
+.c-nav__list-item:hover .c-nav__icon,
+.is-selected .c-nav__icon {
+    fill: var(--color-delta);
+}
+
+.c-nav__list-item::after{
+    content: "";
+    width: 4px;
+    background: var(--color-delta);
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transition: opacity var(--transition-beta);
+}
+
+.is-selected::after,
+.c-nav__list-item:hover::after {
+    opacity: 1;
+    transition: opacity var(--transition-alpha);
+}
+
+/*
+    Component: dashboard
+    ---
+    Dashboard using CSS grid
+*/
 
 .c-dashboard {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(5, auto);
-    grid-gap: var(--global-whitespace-xl); /* 30px */
+    grid-template-columns: repeat(12,1fr);
+    grid-gap: 30px;
+    gap: 30px;
 }
 
 .c-dashboard__item {
-    background-color: var(--color-neutral-xxxx-light);
-    box-shadow: var(--global-shadow);
-    padding: var(--global-whitespace-md);
-    border-radius: calc(var(--global-baseline) * 1.5);
-
+    background: white;
+    box-shadow: var(--global-box-shadow);
+    padding: var(--global-whitespace-sm);
     grid-column: span 12;
 }
 
-.c-dashboard__item p {
-    margin: 0;
+.u-column-span-4 {
+    grid-column: span 4;
+}
+
+.u-column-span-6 {
+    grid-column: span 6;
+}
+
+.u-column-span-8 {
+    grid-column: span 8;
+}
+
+.u-row-span-2 {
+    grid-row: span 2;
 }
 
 /*------------------------------------*\
 #UTILITIES
 \*------------------------------------*/
-
-/*
-    Utilities: span
-    ---
-    Utility classes to define span
-*/
-
-.u-span-h-1-2 {
-    grid-column: span 6;
-}
-
-.u-span-h-1-3 {
-    grid-column: span 4;
-}
-
-.u-span-h-2-3 {
-    grid-column: span 8;
-}
-
-.u-span-v-2 {
-    grid-row: span 2;
-}
 
 /*
     Utilities: color
@@ -614,6 +581,7 @@ input::placeholder {
 .u-max-width-none {
     max-width: none !important;
 }
+
 
 /*
     Utilities: align
