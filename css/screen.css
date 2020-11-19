@@ -321,14 +321,14 @@ input::placeholder {
 
 .c-app {
     min-height: 100vh;
-    overflow: hidden;
+    --c-app__topbar-height: calc(var(--global-baseline) * 14);
 }
 
 @media (min-width: 768px) {
     .c-app {
         display: grid;
         grid-template-columns: 260px 1fr;
-        grid-template-rows: auto 1fr;
+        grid-template-rows: var(--c-app__topbar-height) 1fr;
         grid-gap: 0;
     }
 }
@@ -341,7 +341,10 @@ input::placeholder {
 
 .c-app__logo {
     background-color: var(--color-neutral-xxx-dark);
-    padding: var(--global-whitespace-lg) var(--global-whitespace-md);
+    padding: 0 var(--global-whitespace-lg);
+
+    display: flex;
+    align-items: center;
 }
 
 .c-logo {
@@ -445,6 +448,41 @@ input::placeholder {
     background-color: var(--color-neutral-xxx-light);
     padding: var(--global-whitespace-xl) calc(var(--global-baseline) * 15) 0 calc(var(--global-baseline) * 15); /* 75px links rechts 30px boven */
 }
+
+/* 
+    Scroll behaviour 1:
+    Hier komt de main content effectief onder de topbar
+    Maar de scrollbar zelf gaat tot de hele hoogte van het scherm
+    Enkel cool als de topbar semi transparant is
+*/
+
+/*
+.c-app__topbar,
+.c-app__logo {
+    position: sticky;
+    top: 0;
+}
+.c-app__sidebar {
+    position: sticky;
+    top: var(--c-app__topbar-height);
+    height: calc(100vh - var(--c-app__topbar-height));
+    overflow: auto;
+}
+*/
+
+/*
+    Scroll behavior 2:
+    voelt beetje als een app
+*/
+
+.c-app__sidebar,
+.c-app__main {
+    height: calc(100vh - var(--c-app__topbar-height));
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Component dashboard */
 
 .c-dashboard {
     display: grid;
